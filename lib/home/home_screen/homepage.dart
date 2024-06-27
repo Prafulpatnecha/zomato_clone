@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:zomato_clone/utils/globle_image.dart';
+import 'package:zomato_clone/utils/globle_model.dart';
 import 'package:zomato_clone/utils/globle_values.dart';
-
 import '../../utils/color.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,9 +14,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    exploreList = FoodModel.toList(list1: imageListExplore);
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SizedBox(
         height: height,
         width: width,
@@ -23,7 +26,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               Container(
-                height: 450,
+                height: 180,
                 width: width,
                 decoration: BoxDecoration(
                     color: colorZomato,
@@ -80,12 +83,12 @@ class _HomePageState extends State<HomePage> {
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    const BoxShadow(
+                                  boxShadow: const [
+                                    BoxShadow(
                                         color: Colors.black,
-                                        blurRadius: 5,
+                                        blurRadius: 20,
                                         offset: Offset(0, 0),
-                                        spreadRadius: -2,
+                                        spreadRadius: -10,
                                         blurStyle: BlurStyle.solid)
                                   ]),
                               child: const Icon(
@@ -118,35 +121,211 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Row(
                       children: [
-                        const SizedBox(width: 10,),
+                        const SizedBox(
+                          width: 6,
+                        ),
                         Container(
                           decoration: BoxDecoration(
-                          color: Colors.white,
-                            borderRadius: BorderRadius.circular(15)
-                          ),
+                              boxShadow: const [
+                                BoxShadow(
+                                    color: Colors.black,
+                                    blurRadius: 20,
+                                    offset: Offset(0, 0),
+                                    spreadRadius: -13,
+                                    blurStyle: BlurStyle.solid),
+                              ],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12)),
                           height: 45,
-                          width: width/1.2,
+                          width: width / 1.22,
                           child: Row(
                             children: [
-                              SizedBox(width: 10,),
-                              Icon(Icons.search,color: Colors.red,),
-                              SizedBox(width: 10,),
-                              Text('Search',style: TextStyle(color: Colors.black87,fontFamily: fontLight,fontSize: 16,fontWeight: FontWeight.w500),),
-                              Spacer(),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Icon(
+                                Icons.search,
+                                color: colorZomatoAll,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                'Search',
+                                style: TextStyle(
+                                    color: Colors.black87,
+                                    fontFamily: fontLight,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              const Spacer(),
                               Container(
-                                margin: EdgeInsets.all(10),
-                                  child: const VerticalDivider(color: Colors.black45,width: 1,thickness: 1  ,)),
+                                margin: const EdgeInsets.all(10),
+                                child: const VerticalDivider(
+                                  color: Colors.black45,
+                                  width: 1,
+                                  thickness: 1,
+                                ),
+                              ),
+                              Icon(
+                                Icons.mic_none,
+                                color: colorZomatoAll,
+                              ),
+                              const SizedBox(
+                                width: 11,
+                              ),
+                              Column(
+                                children: [],
+                              )
                             ],
                           ),
                         ),
+                        Column(
+                          children: [
+                            Text(
+                              'VEG',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: fontBold,
+                                  fontSize: 20),
+                            ),
+                            Text(
+                              'Mode',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: fontBold,
+                                  height: 0.1),
+                            ),
+                            Transform.scale(
+                              scale: 0.7,
+                              child: Switch.adaptive(
+                                value: valueBool,
+                                onChanged: (value) {
+                                  setState(() {
+                                    valueBool = value!;
+                                  });
+                                },
+                                activeColor: Colors.white,
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                                trackOutlineWidth: WidgetStateProperty.all(13),
+                                trackOutlineColor:
+                                    WidgetStateProperty.all(colorZomato),
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
-                    )
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    // GestureDetector(
+                    //   //todo navigator button
+                    //   onTap: () {},
+                    //   child: Container(
+                    //     height: 250,
+                    //     width: width,
+                    //     margin: const EdgeInsets.symmetric(horizontal: 15),
+                    //     decoration: BoxDecoration(
+                    //       // color: Colors.blue,
+                    //       gradient: RadialGradient(colors: [
+                    //         colorZomatoAll,
+                    //         colorZomato,
+                    //       ]),
+                    //       image: DecorationImage(
+                    //         image: imageVote,
+                    //         fit: BoxFit.cover,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                ' Vote now > ',
+                style: TextStyle(
+                  height: -1.5,
+                  fontSize: 25,
+                  color: Colors.white,
+                  fontFamily: fontLight,
+                  backgroundColor: Colors.black,
+                ),
+              ),
+              paddingShowLineText(textFind: 'EXPLORE'),
+              SingleChildScrollView(
+                child: Row(
+                  children: [
+                    ...List.generate(
+                      exploreList!.foodListDetails.length,
+                      (index) => Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              // print(index);
+                            });
+                          },
+                          child: Container(
+                            width: 110,
+                            height: 120,
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              paddingShowLineText(textFind: "WHAT'S ON YOUR MIND?"),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Padding paddingShowLineText({required String textFind}) {
+    return Padding(
+      padding: const EdgeInsets.all(9.0),
+      child: Column(
+        children: [
+          Container(
+            height: 30,
+            // color: Colors.blue,
+            child: Stack(
+              children: [
+                Align(
+                  child: Divider(
+                    color: Colors.black26,
+                    thickness: 0.3,
+                  ),
+                ),
+                Align(
+                  child: Container(
+                    color: Colors.white,
+                    child: Text(
+                      textFind,
+                      style: TextStyle(
+                          color: Colors.black45,
+                          fontFamily: fontLight,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 2,
+                          wordSpacing: 2),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
