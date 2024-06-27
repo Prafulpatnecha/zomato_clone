@@ -3,7 +3,7 @@ class FoodModel{
   String? image;
   String? name;
   String? deal;
-  List foodListDetails=[];
+  List<FoodModel> foodListDetails=[];
   FoodModel({this.image,this.name,this.deal});
   factory FoodModel.fromFood(Map m1)
   {
