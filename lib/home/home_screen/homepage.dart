@@ -3,6 +3,8 @@ import 'package:zomato_clone/utils/globle_image.dart';
 import 'package:zomato_clone/utils/globle_model.dart';
 import 'package:zomato_clone/utils/globle_values.dart';
 import '../../utils/color.dart';
+import '../components/Containers.dart';
+import '../components/funtions_use.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -37,13 +39,20 @@ class _HomePageState extends State<HomePage> {
             shadowColor: Colors.black,
             elevation: 0.5,
             bottom: TabBar(
-              labelColor: Colors.purple,
-              // indicatorColor: Colors.purple,
-              indicatorSize: TabBarIndicatorSize.label,
-              unselectedLabelColor: Colors.black,
+              indicator: UnderlineTabIndicator(
+                  borderSide: BorderSide(color: colorZomatoAll, width: 7.0),
+                  insets: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 62.0),
+                  borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(5),
+                      bottomRight: Radius.circular(5))),
+              unselectedLabelColor: colorZomatoAll,
+              unselectedLabelStyle: textStyle.copyWith(
+                fontSize: 20.0,
+                color: colorZomatoAll,
+              ),
               onTap: (value) {
                 setState(() {
-                  boolColorTabBar=!boolColorTabBar;
+                  boolColorTabBar = !boolColorTabBar;
                 });
               },
               indicatorColor: Colors.red,
@@ -54,8 +63,24 @@ class _HomePageState extends State<HomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      (boolColorTabBar==true)?Icon(Icons.delivery_dining,size: 35,color: colorZomatoAll,):Icon(Icons.delivery_dining_outlined,size: 35,color: Colors.black,),
-                      Text(' Delivery',style: TextStyle(fontFamily: fontBold,fontSize: 18,color: Colors.black),)
+                      (boolColorTabBar == true)
+                          ? Icon(
+                              Icons.delivery_dining,
+                              size: 35,
+                              color: colorZomatoAll,
+                            )
+                          : const Icon(
+                              Icons.delivery_dining_outlined,
+                              size: 35,
+                              color: Colors.black,
+                            ),
+                      Text(
+                        ' Delivery',
+                        style: TextStyle(
+                            fontFamily: fontBold,
+                            fontSize: 18,
+                            color: Colors.black),
+                      )
                     ],
                   ),
                 ),
@@ -64,8 +89,24 @@ class _HomePageState extends State<HomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      (boolColorTabBar==true)?Icon(Icons.dining_outlined,size: 35,color: Colors.black,):Icon(Icons.dining,size: 35,color: colorZomatoAll,),
-                      Text(' Delivery',style: TextStyle(fontFamily: fontBold,fontSize: 18,color: Colors.black),),
+                      (boolColorTabBar == true)
+                          ? const Icon(
+                              Icons.dining_outlined,
+                              size: 35,
+                              color: Colors.black,
+                            )
+                          : Icon(
+                              Icons.dining,
+                              size: 35,
+                              color: colorZomatoAll,
+                            ),
+                      Text(
+                        ' Delivery',
+                        style: TextStyle(
+                            fontFamily: fontBold,
+                            fontSize: 18,
+                            color: Colors.black),
+                      ),
                     ],
                   ),
                 ),
@@ -84,9 +125,9 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       height: 180,
                       width: width,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.white,
-                          borderRadius: const BorderRadius.only(
+                          borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(15),
                               bottomRight: Radius.circular(15))),
                       child: Column(
@@ -131,7 +172,8 @@ class _HomePageState extends State<HomePage> {
                               width: 100,
                               // color: Colors.blue,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   Container(
                                     height: 35,
@@ -230,10 +272,8 @@ class _HomePageState extends State<HomePage> {
                                     const SizedBox(
                                       width: 11,
                                     ),
-                                    Column(
-                                      children: [
-
-                                      ],
+                                    const Column(
+                                      children: [],
                                     )
                                   ],
                                 ),
@@ -267,7 +307,8 @@ class _HomePageState extends State<HomePage> {
                                       activeColor: colorZomatoAll,
                                       materialTapTargetSize:
                                           MaterialTapTargetSize.shrinkWrap,
-                                      trackOutlineWidth: WidgetStateProperty.all(13),
+                                      trackOutlineWidth:
+                                          WidgetStateProperty.all(13),
                                       trackOutlineColor:
                                           WidgetStateProperty.all(Colors.white),
                                     ),
@@ -276,7 +317,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           // GestureDetector(
@@ -302,7 +343,7 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     // Text(
@@ -323,7 +364,8 @@ class _HomePageState extends State<HomePage> {
                             exploreList!.foodListDetails.length,
                             (index) => Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: GestureDetector(//todo sat data index type Navigator
+                              child: GestureDetector(
+                                //todo sat data index type Navigator
                                 onTap: () {
                                   setState(() {
                                     // print(index);
@@ -352,23 +394,28 @@ class _HomePageState extends State<HomePage> {
                                         height: (index == 0) ? 80 : 80,
                                         width: (index == 1) ? 100 : 125,
                                         decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                          image: AssetImage(exploreList!
-                                              .foodListDetails[index].image!),
-                                          fit: BoxFit.fitWidth,
-                                        ),),
+                                          image: DecorationImage(
+                                            image: AssetImage(exploreList!
+                                                .foodListDetails[index].image!),
+                                            fit: BoxFit.fitWidth,
+                                          ),
+                                        ),
                                       ),
                                       Text(
-                                        exploreList!.foodListDetails[index].name!,
+                                        exploreList!
+                                            .foodListDetails[index].name!,
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontFamily: fontBold,
                                             fontSize: 16),
                                       ),
                                       Text(
-                                        exploreList!.foodListDetails[index].deal!,
+                                        exploreList!
+                                            .foodListDetails[index].deal!,
                                         style: TextStyle(
-                                            color: (index==0)?Colors.blue.shade800:Colors.black,
+                                            color: (index == 0)
+                                                ? Colors.blue.shade800
+                                                : Colors.black,
                                             fontFamily: fontLight,
                                             fontSize: 13),
                                       ),
@@ -381,8 +428,28 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    paddingShowLineText(textFind: "WHAT'S ON YOUR MIND?"),//todo image category
-
+                    paddingShowLineText(textFind: "WHAT'S ON YOUR MIND?"),
+                    //todo image category
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                        height: 45,
+                        width: width,
+                        decoration: BoxDecoration(
+                          color: Colors.black12,
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Row(//todo all and near fast
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // paddingButtonFuntion(boolValueFind, valueBoolSatStateData, textFind, widthFind),
+                            // paddingButtonFuntion(boolValueFind, valueBoolSatStateData, textFind, widthFind),
+                    buildPaddingButton(width: width, textFind: 'ALL', widthFind: 120, boolValueFind: true, valueBoolSatStateData: false),
+                    buildPaddingButton(width: width, textFind: 'NEAR & FAST', widthFind: width/1.57, boolValueFind: false, valueBoolSatStateData: true)
+                          ],
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -394,42 +461,45 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Padding paddingShowLineText({required String textFind}) {
+  // Padding buildPaddingButton({required double width,required String textFind,required double widthFind,required bool boolValueFind,required bool valueBoolSatStateData}) {
+  //   return ;
+  // }
+
+  Padding buildPaddingButton({required double width,required String textFind,required double widthFind,required bool boolValueFind,required bool valueBoolSatStateData}) {
     return Padding(
-      padding: const EdgeInsets.all(9.0),
-      child: Column(
-        children: [
-          Container(
-            height: 30,
-            // color: Colors.blue,
-            child: Stack(
-              children: [
-                Align(
-                  child: Divider(
-                    color: Colors.black26,
-                    thickness: 0.3,
-                  ),
-                ),
-                Align(
-                  child: Container(
-                    color: Colors.white,
-                    child: Text(
-                      textFind,
-                      style: TextStyle(
-                          color: Colors.black45,
-                          fontFamily: fontLight,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 2,
-                          wordSpacing: 2),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                          padding: const EdgeInsets.all(2.0),
+                          child: (fastFindBool==boolValueFind)?GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                fastFindBool=valueBoolSatStateData;
+                              });
+                            },
+                            child: Container(
+                              width: widthFind,
+                              decoration: BoxDecoration(
+                              // color: Colors.white10,
+                                borderRadius: BorderRadius.circular(20)
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(textFind,style: TextStyle(color: Colors.black45,fontFamily: fontBold,fontSize: 18),),
+                            ),
+                          ):GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                fastFindBool=valueBoolSatStateData;
+                              });
+                            },
+                            child: Container(
+                              width: widthFind,
+                              decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(20)
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(textFind,style: TextStyle(color: Colors.white,fontFamily: fontBold,fontSize: 18),),
+                            ),
+                          ),
+                        );
   }
 }
 // krispi,parata,subji,crunci,sweets,
