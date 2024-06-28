@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:zomato_clone/utils/globle_image.dart';
 import 'package:zomato_clone/utils/globle_model.dart';
+import 'package:zomato_clone/utils/globle_product_list.dart';
 import 'package:zomato_clone/utils/globle_values.dart';
 import '../../utils/color.dart';
+import '../../utils/image_list_globle.dart';
 import '../components/Containers.dart';
 import '../components/funtions_use.dart';
 
@@ -17,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     exploreList = FoodModel.toList(list1: imageListExplore);
+    productListModelUse =FoodModel.toList(list1: productDetail);
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return DefaultTabController(
@@ -91,12 +94,12 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       (boolColorTabBar == true)
                           ? const Icon(
-                              Icons.dining_outlined,
+                              Icons.room_service_outlined,
                               size: 35,
                               color: Colors.black,
                             )
                           : Icon(
-                              Icons.dining,
+                              Icons.room_service,
                               size: 35,
                               color: colorZomatoAll,
                             ),
@@ -436,25 +439,146 @@ class _HomePageState extends State<HomePage> {
                         height: 45,
                         width: width,
                         decoration: BoxDecoration(
-                          color: Colors.black12,
+                          color: Colors.white70,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurStyle: BlurStyle.solid,
+                              offset: Offset(0, 0),
+                              blurRadius: 20
+                            )
+                          ],
                           borderRadius: BorderRadius.circular(25),
                         ),
-                        child: Row(//todo all and near fast
+                        child: Row(
+                          //todo all and near fast
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            // paddingButtonFuntion(boolValueFind, valueBoolSatStateData, textFind, widthFind),
-                            // paddingButtonFuntion(boolValueFind, valueBoolSatStateData, textFind, widthFind),
-                    buildPaddingButton(width: width, textFind: 'ALL', widthFind: 120, boolValueFind: true, valueBoolSatStateData: false),
-                    buildPaddingButton(width: width, textFind: 'NEAR & FAST', widthFind: width/1.57, boolValueFind: false, valueBoolSatStateData: true)
+                            buildPaddingButton(
+                                width: width,
+                                textFind: 'ALL',
+                                widthFind: width / 4,
+                                boolValueFind: true,
+                                valueBoolSatStateData: false,
+                                nowBoolFind: false, satStateDataSend: () {
+                              setState(() {
+                                fastFindBool = false;
+                                tabCreateBool=false;
+                              });
+                            }),
+                            buildPaddingButton(
+                                width: width,
+                                textFind: ' NEAR & FAST',
+                                widthFind: width / 1.57,
+                                boolValueFind: false,
+                                valueBoolSatStateData: true,
+                                nowBoolFind: true, satStateDataSend: () {
+                              setState(() {
+                                fastFindBool = true;
+                                tabCreateBool=true;
+                              });
+                            })
                           ],
                         ),
                       ),
-                    )
+                    ),
+                    (tabCreateBool==false)?Container(
+                      child: Column(
+                        children: [
+                          ...List.generate(33, (index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  boxShadow: [
+                                      BoxShadow(
+                                      color: Colors.black,
+                                      offset: Offset(0, 2),
+                                      blurRadius: 10,
+                                      spreadRadius: 0,
+                                      blurStyle: BlurStyle.normal
+                                  ),],
+                                ),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height: 235,
+                                      width: width/1.01,
+                                      decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
+                                        image: DecorationImage(
+                                          image: imageProductList['custard'][index]['image'],
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      child: Stack(
+                                        children: [
+                                          PositionedDirectional(
+                                            bottom: 0,
+                                              child: Container(
+                                                height: 20,
+                                                width: 140,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.only(topRight: Radius.circular(10)),
+                                                color: Colors.white,
+                                                  boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black,
+                                                    offset: Offset(0, -40),
+                                                    blurRadius: 60,
+                                                    spreadRadius: 0,
+                                                    blurStyle: BlurStyle.normal
+                                                  ),
+                                                  ]
+                                                ),
+                                                child: SizedBox(
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      const Icon(Icons.timer_sharp,size: 15,color: Colors.black45,),
+                                                      Text(' ${productListModelUse!.foodListDetails[index].time!} • ${productListModelUse!.foodListDetails[index].km!} km',style: TextStyle(fontFamily: fontBold,fontSize: 11),),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 100,
+                                      width: width/1.01,
+                                      decoration: BoxDecoration(
+                                      color: Colors.white,
+                                        // border: Border.fromBorderSide(BorderSide(color: Colors.black,width: 0.1)),
+                                        borderRadius: BorderRadius.only(bottomRight: Radius.circular(20),bottomLeft: Radius.circular(20)),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.white70,
+                                            offset: Offset(0, -1),
+                                            blurRadius: 20,
+                                            spreadRadius: 0,
+                                            blurStyle: BlurStyle.solid
+                                          ),
+                                        ]
+                                      ),
+                                      // child: ,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },),
+                        ],
+                      ),
+                    ):Container(),//todo near & fast code write
                   ],
                 ),
               ),
             ),
-            Container()
+            Container(),//todo delivery tab
           ],
         ),
       ),
@@ -464,42 +588,4 @@ class _HomePageState extends State<HomePage> {
   // Padding buildPaddingButton({required double width,required String textFind,required double widthFind,required bool boolValueFind,required bool valueBoolSatStateData}) {
   //   return ;
   // }
-
-  Padding buildPaddingButton({required double width,required String textFind,required double widthFind,required bool boolValueFind,required bool valueBoolSatStateData}) {
-    return Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: (fastFindBool==boolValueFind)?GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                fastFindBool=valueBoolSatStateData;
-                              });
-                            },
-                            child: Container(
-                              width: widthFind,
-                              decoration: BoxDecoration(
-                              // color: Colors.white10,
-                                borderRadius: BorderRadius.circular(20)
-                              ),
-                              alignment: Alignment.center,
-                              child: Text(textFind,style: TextStyle(color: Colors.black45,fontFamily: fontBold,fontSize: 18),),
-                            ),
-                          ):GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                fastFindBool=valueBoolSatStateData;
-                              });
-                            },
-                            child: Container(
-                              width: widthFind,
-                              decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(20)
-                              ),
-                              alignment: Alignment.center,
-                              child: Text(textFind,style: TextStyle(color: Colors.white,fontFamily: fontBold,fontSize: 18),),
-                            ),
-                          ),
-                        );
-  }
 }
-// krispi,parata,subji,crunci,sweets,

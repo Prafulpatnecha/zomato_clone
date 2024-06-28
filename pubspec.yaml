@@ -64,6 +64,18 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/img/
+    - assets/image/biryani/
+    - assets/image/cafe/
+    - assets/image/cake/
+    - assets/image/custard/
+    - assets/image/fast_food/
+    - assets/image/jain_food/
+    - assets/image/paratha/
+    - assets/image/pasta/
+    - assets/image/pizza/
+    - assets/image/sabji/
+    - assets/image/sweet/
+    - assets/image/thali/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
