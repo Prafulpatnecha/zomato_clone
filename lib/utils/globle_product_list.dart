@@ -2942,7 +2942,6 @@ List typeListFill=[
   'Summer'
 ];
 
-
 // {
 // 'productNo':,
 // 'productName':"",
