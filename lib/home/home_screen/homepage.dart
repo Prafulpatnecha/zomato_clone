@@ -3,8 +3,8 @@ import 'package:zomato_clone/utils/globle_image.dart';
 import 'package:zomato_clone/utils/globle_model.dart';
 import 'package:zomato_clone/utils/globle_product_list.dart';
 import 'package:zomato_clone/utils/globle_values.dart';
+import 'package:zomato_clone/utils/randome_list.dart';
 import '../../utils/color.dart';
-import '../../utils/image_list_globle.dart';
 import '../components/Containers.dart';
 import '../components/funtions_use.dart';
 
@@ -19,7 +19,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     exploreList = FoodModel.toList(list1: imageListExplore);
-    productListModelUse =FoodModel.toList(list1: productDetail);
+    productListModelUseJoin = FoodModel.toList(list1: productDetailsListJoin);
+    productListModelUse = FoodModel.toList(list1: productDetailsList);
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return DefaultTabController(
@@ -61,7 +62,7 @@ class _HomePageState extends State<HomePage> {
               indicatorColor: Colors.red,
               automaticIndicatorColorAdjustment: true,
               tabs: [
-                Container(
+                SizedBox(
                   height: 68,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -87,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 68,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -170,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                                 color: Colors.black87,
                               ),
                             ),
-                            trailing: Container(
+                            trailing: SizedBox(
                               height: 100,
                               width: 100,
                               // color: Colors.blue,
@@ -440,13 +441,12 @@ class _HomePageState extends State<HomePage> {
                         width: width,
                         decoration: BoxDecoration(
                           color: Colors.white70,
-                          boxShadow: [
+                          boxShadow: const [
                             BoxShadow(
-                              color: Colors.black12,
-                              blurStyle: BlurStyle.solid,
-                              offset: Offset(0, 0),
-                              blurRadius: 20
-                            )
+                                color: Colors.black12,
+                                blurStyle: BlurStyle.solid,
+                                offset: Offset(0, 0),
+                                blurRadius: 20),
                           ],
                           borderRadius: BorderRadius.circular(25),
                         ),
@@ -460,132 +460,423 @@ class _HomePageState extends State<HomePage> {
                                 widthFind: width / 4,
                                 boolValueFind: true,
                                 valueBoolSatStateData: false,
-                                nowBoolFind: false, satStateDataSend: () {
-                              setState(() {
-                                fastFindBool = false;
-                                tabCreateBool=false;
-                              });
-                            }),
+                                nowBoolFind: false,
+                                satStateDataSend: () {
+                                  setState(() {
+                                    fastFindBool = false;
+                                    tabCreateBool = false;
+                                  });
+                                }),
                             buildPaddingButton(
                                 width: width,
                                 textFind: ' NEAR & FAST',
                                 widthFind: width / 1.57,
                                 boolValueFind: false,
                                 valueBoolSatStateData: true,
-                                nowBoolFind: true, satStateDataSend: () {
-                              setState(() {
-                                fastFindBool = true;
-                                tabCreateBool=true;
-                              });
-                            })
+                                nowBoolFind: true,
+                                satStateDataSend: () {
+                                  setState(() {
+                                    fastFindBool = true;
+                                    tabCreateBool = true;
+                                  });
+                                })
                           ],
                         ),
                       ),
                     ),
-                    (tabCreateBool==false)?Container(
-                      child: Column(
-                        children: [
-                          ...List.generate(33, (index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  boxShadow: [
-                                      BoxShadow(
-                                      color: Colors.black,
-                                      offset: Offset(0, 2),
-                                      blurRadius: 10,
-                                      spreadRadius: 0,
-                                      blurStyle: BlurStyle.normal
-                                  ),],
-                                ),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      height: 235,
-                                      width: width/1.01,
+                    (tabCreateBool == false)
+                        ? Container(
+                            child: Column(
+                              children: [
+                                ...List.generate(
+                                    productListModelUse!.foodListDetails.length,
+                                    (indexs) {
+                                  indexTime = randomDurationAreaIndex
+                                      .nextInt(timeStore.length);
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
                                       decoration: BoxDecoration(
-                                      color: Colors.blue,
-                                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
-                                        image: DecorationImage(
-                                          image: imageProductList['custard'][index]['image'],
-                                          fit: BoxFit.cover,
-                                        ),
+                                        borderRadius: BorderRadius.circular(30),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              color: Colors.black,
+                                              offset: Offset(0, 2),
+                                              blurRadius: 10,
+                                              spreadRadius: 0,
+                                              blurStyle: BlurStyle.normal),
+                                        ],
                                       ),
-                                      child: Stack(
-                                        children: [
-                                          PositionedDirectional(
-                                            bottom: 0,
-                                              child: Container(
-                                                height: 20,
-                                                width: 140,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.only(topRight: Radius.circular(10)),
+                                      child: GestureDetector(
+                                        onTap:() {
+                                          setState(() {
+                                            selectIndexDisplay=indexs;
+                                          });
+                                          Navigator.of(context).pushNamed('/view');
+                                        },
+                                        child: Column(
+                                          children: [
+                                            SingleChildScrollView(
+                                              //todo product images
+                                              scrollDirection: Axis.horizontal,
+                                              child: Row(
+                                                children: [
+                                                  ...List.generate(
+                                                    productListModelUseJoin!
+                                                        .foodListDetails.length,
+                                                    (index) {
+                                                      return (productListModelUseJoin!
+                                                                  .foodListDetails[
+                                                                      index]
+                                                                  .productNo ==
+                                                              productListModelUse!
+                                                                  .foodListDetails[
+                                                                      indexs]
+                                                                  .productNo)
+                                                          ? Container(
+                                                              height: 235,
+                                                              width:
+                                                                  width / 1.035,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color:
+                                                                    Colors.white,
+                                                                borderRadius:
+                                                                    const BorderRadius
+                                                                        .only(
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          20),
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                          20),
+                                                                ),
+                                                                image:
+                                                                    DecorationImage(
+                                                                  image: AssetImage(
+                                                                      productListModelUseJoin!
+                                                                          .foodListDetails[
+                                                                              index]
+                                                                          .image!),
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                ),
+                                                              ),
+                                                              child: Stack(
+                                                                children: [
+                                                                  PositionedDirectional(
+                                                                    bottom: 0,
+                                                                    child:
+                                                                        Container(
+                                                                      height: 20,
+                                                                      width: 140,
+                                                                      decoration: const BoxDecoration(
+                                                                          borderRadius: BorderRadius.only(
+                                                                              topRight: Radius.circular(
+                                                                                  10)),
+                                                                          color: Colors
+                                                                              .white,
+                                                                          boxShadow: [
+                                                                            BoxShadow(
+                                                                                color: Colors.black,
+                                                                                offset: Offset(0, -40),
+                                                                                blurRadius: 60,
+                                                                                spreadRadius: 0,
+                                                                                blurStyle: BlurStyle.normal),
+                                                                          ]),
+                                                                      child:
+                                                                          SizedBox(
+                                                                        child:
+                                                                            timerMetter(fontFind: fontBold),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            )
+                                                          : Container();
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              //todo product text
+                                              height: 70,
+                                              width: width / 1.01,
+                                              decoration: const BoxDecoration(
                                                 color: Colors.white,
-                                                  boxShadow: [
+                                                // border: Border.fromBorderSide(BorderSide(color: Colors.black,width: 0.1)),
+                                                borderRadius: BorderRadius.only(
+                                                    bottomRight:
+                                                        Radius.circular(20),
+                                                    bottomLeft:
+                                                        Radius.circular(20)),
+                                                boxShadow: [
                                                   BoxShadow(
-                                                    color: Colors.black,
-                                                    offset: Offset(0, -40),
-                                                    blurRadius: 60,
-                                                    spreadRadius: 0,
-                                                    blurStyle: BlurStyle.normal
-                                                  ),
-                                                  ]
-                                                ),
-                                                child: SizedBox(
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    children: [
-                                                      const Icon(Icons.timer_sharp,size: 15,color: Colors.black45,),
-                                                      Text(' ${productListModelUse!.foodListDetails[index].time!} • ${productListModelUse!.foodListDetails[index].km!} km',style: TextStyle(fontFamily: fontBold,fontSize: 11),),
-                                                    ],
-                                                  ),
+                                                      color: Colors.white70,
+                                                      offset: Offset(0, -1),
+                                                      blurRadius: 20,
+                                                      spreadRadius: 0,
+                                                      blurStyle: BlurStyle.solid),
+                                                ],
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(9.0),
+                                                child: Column(
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          productListModelUse!
+                                                              .foodListDetails[
+                                                                  indexs]
+                                                              .restaurantName!,
+                                                          style: TextStyle(
+                                                              color: Colors.black,
+                                                              fontFamily:
+                                                                  fontBold,
+                                                              fontWeight:
+                                                                  FontWeight.bold,
+                                                              fontSize: 20),
+                                                        ),
+                                                        ratingMetter(indexs)
+                                                      ],
+                                                    ),
+                                                    // SizedBox(height: ,),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          '${productListModelUseJoin!.foodListDetails[indexTime].type!} • ${productListModelUse!.foodListDetails[indexs].state!} • ₹ 200 for one',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black54,
+                                                              fontFamily:
+                                                                  fontLight,
+                                                              fontSize: 13),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                              ],
+                            ),
+                          )
+                        : Container(
+                            child: Column(
+                              children: [
+                                ...List.generate(
+                                    productListModelUse!.foodListDetails.length,
+                                    (indexs) {
+                                  indexTime = randomDurationAreaIndex
+                                      .nextInt(timeStore.length);
+                                  indexTime2 = randomTimeStoreIndex
+                                      .nextInt(durationArea.length);
+                                  //
+                                  if (indexs == 0) {
+                                    indexs = 3;
+                                  } else if (indexs == 3) {
+                                    indexs = 0;
+                                  }
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                              color: Colors.black,
+                                              offset: Offset(0, 2),
+                                              blurRadius: 10,
+                                              spreadRadius: 0,
+                                              blurStyle: BlurStyle.normal),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          SingleChildScrollView(
+                                            //todo product images
+                                            scrollDirection: Axis.horizontal,
+
+                                            child: Row(
+                                              children: [
+                                                ...List.generate(
+                                                  productListModelUseJoin!
+                                                      .foodListDetails.length,
+                                                  (index) {
+                                                    return (productListModelUseJoin!
+                                                                .foodListDetails[
+                                                                    index]
+                                                                .productNo ==
+                                                            productListModelUse!
+                                                                .foodListDetails[
+                                                                    indexs]
+                                                                .productNo)
+                                                        ? Container(
+                                                            height: 235,
+                                                            width:
+                                                                width / 1.035,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color:
+                                                                  Colors.white,
+                                                              borderRadius:
+                                                                  const BorderRadius
+                                                                      .only(
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        20),
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        20),
+                                                              ),
+                                                              image:
+                                                                  DecorationImage(
+                                                                image: AssetImage(
+                                                                    productListModelUseJoin!
+                                                                        .foodListDetails[
+                                                                            index]
+                                                                        .image!),
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            ),
+                                                            child: Stack(
+                                                              children: [
+                                                                PositionedDirectional(
+                                                                  bottom: 0,
+                                                                  child:
+                                                                      Container(
+                                                                    height: 20,
+                                                                    width: 140,
+                                                                    decoration: const BoxDecoration(
+                                                                        borderRadius: BorderRadius.only(
+                                                                            topRight: Radius.circular(
+                                                                                10)),
+                                                                        color: Colors
+                                                                            .white,
+                                                                        boxShadow: [
+                                                                          BoxShadow(
+                                                                              color: Colors.black,
+                                                                              offset: Offset(0, -40),
+                                                                              blurRadius: 60,
+                                                                              spreadRadius: 0,
+                                                                              blurStyle: BlurStyle.normal),
+                                                                        ]),
+                                                                    child:
+                                                                        SizedBox(
+                                                                      child:
+                                                                          timerMetter(fontFind: fontBold),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )
+                                                        : Container();
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            //todo product text
+                                            height: 70,
+                                            width: width / 1.01,
+                                            decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                              // border: Border.fromBorderSide(BorderSide(color: Colors.black,width: 0.1)),
+                                              borderRadius: BorderRadius.only(
+                                                  bottomRight:
+                                                      Radius.circular(20),
+                                                  bottomLeft:
+                                                      Radius.circular(20)),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.white70,
+                                                    offset: Offset(0, -1),
+                                                    blurRadius: 20,
+                                                    spreadRadius: 0,
+                                                    blurStyle: BlurStyle.solid),
+                                              ],
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(9.0),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        productListModelUse!
+                                                            .foodListDetails[
+                                                                indexs]
+                                                            .restaurantName!,
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontFamily:
+                                                                fontBold,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 20),
+                                                      ),
+                                                      ratingMetter(indexs)
+                                                    ],
+                                                  ),
+                                                  // SizedBox(height: ,),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        '${productListModelUseJoin!.foodListDetails[indexTime].type!} • ${productListModelUse!.foodListDetails[indexs].state!} • ₹ 200 for one',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.black54,
+                                                            fontFamily:
+                                                                fontLight,
+                                                            fontSize: 13),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                    Container(
-                                      height: 100,
-                                      width: width/1.01,
-                                      decoration: BoxDecoration(
-                                      color: Colors.white,
-                                        // border: Border.fromBorderSide(BorderSide(color: Colors.black,width: 0.1)),
-                                        borderRadius: BorderRadius.only(bottomRight: Radius.circular(20),bottomLeft: Radius.circular(20)),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.white70,
-                                            offset: Offset(0, -1),
-                                            blurRadius: 20,
-                                            spreadRadius: 0,
-                                            blurStyle: BlurStyle.solid
-                                          ),
-                                        ]
-                                      ),
-                                      // child: ,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },),
-                        ],
-                      ),
-                    ):Container(),//todo near & fast code write
+                                  );
+                                }),
+                              ],
+                            ),
+                          ), //todo near & fast code write
                   ],
                 ),
               ),
             ),
-            Container(),//todo delivery tab
+            Container(), //todo delivery tab
           ],
         ),
       ),
     );
   }
-
-  // Padding buildPaddingButton({required double width,required String textFind,required double widthFind,required bool boolValueFind,required bool valueBoolSatStateData}) {
-  //   return ;
-  // }
+// Padding buildPaddingButton({required double width,required String textFind,required double widthFind,required bool boolValueFind,required bool valueBoolSatStateData}) {
+//   return ;
+// }
 }
+
+int i = 0;

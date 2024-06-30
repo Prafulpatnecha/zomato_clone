@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../utils/color.dart';
 import '../../utils/globle_values.dart';
+import '../../utils/randome_list.dart';
 Padding paddingShowLineText({required String textFind}) {
   return Padding(
     padding: const EdgeInsets.all(9.0),
@@ -133,5 +134,65 @@ Container newContanier() {//todo new flash
         const Icon(Icons.flash_on,size: 11,color: Colors.green,)
       ],
     ),
+  );
+}
+
+Container ratingMetter(int indexs) {
+  return Container(
+    height: 25,
+    width: 43,
+    decoration: BoxDecoration(
+        color: Colors
+            .green.shade800,
+        borderRadius:
+        BorderRadius
+            .circular(
+            5)),
+    child: Row(
+      mainAxisAlignment:
+      MainAxisAlignment
+          .center,
+      children: [
+        Text(
+          productListModelUse!
+              .foodListDetails[
+          indexs]
+              .rating!
+              .toString(),
+          style: TextStyle(
+              color: Colors
+                  .white,
+              fontFamily:
+              fontBold),
+        ),
+        const Icon(
+          Icons.star,
+          color:
+          Colors.white,
+          size: 15,
+        )
+      ],
+    ),
+  );
+}
+
+Row timerMetter({required String fontFind,}) {
+  return Row(
+    mainAxisAlignment:
+    MainAxisAlignment.center,
+    children: [
+      const Icon(
+        Icons.timer_sharp,
+        size:
+        15,
+        color:
+        Colors.black45,
+      ),
+      Text(
+        ' ${timeStore[indexTime]}',
+        style:
+        TextStyle(fontFamily: fontFind, fontSize: 11),
+      ),
+    ],
   );
 }

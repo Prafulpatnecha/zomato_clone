@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 AssetImage imageVote=const AssetImage('assets/img/image.png');
-
+String vegImage='assets/img/veg.png';
 List imageListExplore=[
   {
     'image':'assets/img/offer.png',
